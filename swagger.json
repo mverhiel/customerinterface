@@ -1,0 +1,191 @@
+{
+  "swagger" : "2.0",
+  "basePath" : "/customerdb/v1",
+  "info" : {
+    "title" : "Customer Database",
+    "description" : "This is a sample Customers database swagger document for the Customers database example",
+    "version" : "1.0.0"
+  },
+  "definitions" : {
+    "Customer" : {
+      "properties" : {
+        "id" : {
+          "type" : "integer"
+        },
+        "surname" : {
+          "type" : "string"
+        },
+        "firstName" : {
+          "type" : "string"
+        },
+        "initial" : {
+          "type" : "string"
+        },
+        "rating" : {
+          "type" : "integer"
+        }
+      },
+      "required" : [ "surname", "firstName", "initial" ]
+    }
+  },
+  "tags" : [ {
+    "name" : "customers",
+    "description" : "Operations on customers in the customers database"
+  } ],
+  "paths" : {
+    "/customers" : {
+      "get" : {
+        "operationId" : "getAllCustomers",
+        "summary" : "Get all customers from database",
+        "parameters" : [ {
+          "name" : "start",
+          "in" : "query",
+          "description" : "Starting number of customers to get from the database",
+          "required" : false,
+          "type" : "integer"
+        }, {
+          "name" : "max",
+          "in" : "query",
+          "description" : "Maximum number of customers to get from the database",
+          "required" : false,
+          "type" : "integer"
+        }, {
+          "name" : "Authorization",
+          "in" : "header",
+          "type" : "string",
+          "description" : "Provide the authorization token to get all customers"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Array of customers from database",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/Customer"
+              }
+            }
+          }
+        },
+        "tags" : [ "customers" ]
+      },
+      "post" : {
+        "operationId" : "addCustomer",
+        "summary" : "Add customer to database",
+        "parameters" : [ {
+          "name" : "body",
+          "in" : "body",
+          "description" : "The customer to add to database",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Customer"
+          }
+        }, {
+          "name" : "Authorization",
+          "in" : "header",
+          "type" : "string",
+          "required" : true,
+          "description" : "Provide the authorization token to add customer"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Customer added to database"
+          },
+          "409" : {
+            "description" : "Customer already exists in database"
+          }
+        },
+        "tags" : [ "customers" ]
+      }
+    },
+    "/customers/{customerId}" : {
+      "get" : {
+        "operationId" : "getCustomer",
+        "summary" : "Get a customer from the database",
+        "parameters" : [ {
+          "name" : "customerId",
+          "in" : "path",
+          "description" : "the id of the customer to get from the database",
+          "required" : true,
+          "type" : "integer"
+        }, {
+          "name" : "Authorization",
+          "in" : "header",
+          "type" : "string",
+          "description" : "Provide the authorization token to get customer"
+        } ],
+        "responses" : {
+          "404" : {
+            "description" : "Customer not found in the database"
+          },
+          "200" : {
+            "description" : "Customer retrieved from the database",
+            "schema" : {
+              "$ref" : "#/definitions/Customer"
+            }
+          }
+        },
+        "tags" : [ "customers" ]
+      },
+      "delete" : {
+        "operationId" : "deleteCustomer",
+        "summary" : "Delete a customer from the database",
+        "parameters" : [ {
+          "name" : "customerId",
+          "in" : "path",
+          "description" : "The id of the customer to delete",
+          "required" : true,
+          "type" : "integer"
+        }, {
+          "name" : "Authorization",
+          "in" : "header",
+          "description" : "Provide the authorization token to delete customer",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Customer was deleted from database"
+          },
+          "404" : {
+            "description" : "Customer not found in database"
+          }
+        },
+        "tags" : [ "customers" ]
+      },
+      "put" : {
+        "operationId" : "updateCustomer",
+        "summary" : "Update a customer in the database",
+        "parameters" : [ {
+          "name" : "customerId",
+          "in" : "path",
+          "description" : "The id of the customer to update",
+          "required" : true,
+          "type" : "integer"
+        }, {
+          "name" : "body",
+          "in" : "body",
+          "description" : "The customer to update in the database",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Customer"
+          }
+        }, {
+          "name" : "Authorization",
+          "in" : "header",
+          "type" : "string",
+          "required" : true,
+          "description" : "Provide the authorization token to update customer"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Customer updated in the database"
+          },
+          "404" : {
+            "description" : "Customer not found in database"
+          }
+        },
+        "tags" : [ "customers" ]
+      }
+    }
+  }
+}
