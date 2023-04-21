@@ -9,7 +9,7 @@ CREATE COMPUTE MODULE getAllCustomers_getAllCustomers
 		
 		-- use PASSTHRU since we want the data to be sorted. ESQL doesn't support the order by clause.
 		
-		SET odbcCMD = 'SELECT d.id AS id,	d.surname AS surname, d.firstName AS firstName, d.initial AS initial , d.rating AS rating FROM ' || dbSchema || '.CUSTOMERS as d ORDER BY d.id';
+		SET odbcCMD = 'SELECT d.id,	d.surname, d.firstName, d.initial, d.rating FROM ' || dbSchema || '.CUSTOMERS as d ORDER BY d.id';
 		
 		SET Environment.Variables.Data[] = PASSTHRU(odbcCMD);
 		
@@ -36,11 +36,11 @@ CREATE COMPUTE MODULE getAllCustomers_getAllCustomers
 		
 		WHILE (counter <= numberOfRows) DO
 		
-			SET OutputRoot.JSON.Data.Item[rowToAdd].id = Environment.Variables.Data[counter].id;
-			SET OutputRoot.JSON.Data.Item[rowToAdd].surname = Environment.Variables.Data[counter].surname;
-			SET OutputRoot.JSON.Data.Item[rowToAdd].firstName = Environment.Variables.Data[counter].firstName;
-			SET OutputRoot.JSON.Data.Item[rowToAdd].initial = Environment.Variables.Data[counter].initial;
-			SET OutputRoot.JSON.Data.Item[rowToAdd].rating = Environment.Variables.Data[counter].rating;
+			SET OutputRoot.JSON.Data.Item[rowToAdd].id = Environment.Variables.Data[counter].ID;
+			SET OutputRoot.JSON.Data.Item[rowToAdd].surname = Environment.Variables.Data[counter].SURNAME;
+			SET OutputRoot.JSON.Data.Item[rowToAdd].firstName = Environment.Variables.Data[counter].FIRSTNAME;
+			SET OutputRoot.JSON.Data.Item[rowToAdd].initial = Environment.Variables.Data[counter].INITIAL;
+			SET OutputRoot.JSON.Data.Item[rowToAdd].rating = Environment.Variables.Data[counter].RATING;
 		
 			SET rowToAdd = rowToAdd + 1;
 		
